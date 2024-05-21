@@ -17,7 +17,7 @@ interface SalaryData {
   } 
 
 const MainTable: React.FC<MainTableProps> = ({ setRow, data, loading }) => {
-      const handleRowClick = (record: SalaryData, rowIndex?: number) => {
+      const handleRowClick = (record: SalaryData, _rowIndex?: number) => {
         return {
           onClick: () => {
             setRow(record.year); 
