@@ -22,7 +22,7 @@ const Container: React.FC<Contentprops> = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const response = await axios.get('http://localhost:5000/salaries');
+          const response = await axios.get('https://floqer-assignment-wmve.onrender.com/salaries');
           const formattedData = response.data.map((item: any) => ({
             year: item.year,
             totalJobs: item.total_jobs,

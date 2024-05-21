@@ -20,7 +20,7 @@ const SmallTable: React.FC<SmallTableProps> = ({ selectedRow = 2020 }) => {
     useEffect(()=>{
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/salaries/${selectedRow}`);
+                const response = await axios.get(`https://floqer-assignment-wmve.onrender.com/salaries/${selectedRow}`);
                 const formattedData = response.data.map((item: any) => ({
                 title: item.job_title,
                 count: item.count,
