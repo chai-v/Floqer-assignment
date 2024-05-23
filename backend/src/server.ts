@@ -1,9 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import salariesRouter from './routes/salaries';
-
-// const salariesRouter = require('./routes/salaries');
+import genaiRouter from './routes/genai';
+// import './db/init'
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,8 +17,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/salaries', salariesRouter);
+app.use('/genai', genaiRouter);
 
-// Start the server
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

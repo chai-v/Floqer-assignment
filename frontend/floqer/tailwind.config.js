@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'custom-gradient': 'linear-gradient(to right, #8726E7, #B880E0, #E9D9D9, #E9D9D9)',
+        'custom-gradient2': 'linear-gradient(to bottom, #8727E7, #B880E0, #E9D9D9, #E9D9D9)',
       },
     },
     colors: {

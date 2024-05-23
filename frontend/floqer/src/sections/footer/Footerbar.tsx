@@ -12,7 +12,7 @@ const Footerbar: React.FC<Footerprops> = () => {
             <span className='ml-2 font-semibold text-2xl leading-[64px] text-cream'>Floqer</span>
         </div>
         <div className=''>
-          <a>
+          <a href='https://github.com/chai-v/Floqer-assignment'>
             <img width='45px' height='45px' src='/github.png'></img>
           </a>
         </div>
