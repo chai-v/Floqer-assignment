@@ -29,7 +29,7 @@ const Chat: React.FC = () => {
 
     return(
         <div className="w-full h-screen flex flex-col p-2">
-            <div className="w-full h-[55%] bg-darkcream overflow-y-auto mt-4 mb-4 p-2 rounded-md">
+            <div className="w-full h-[55%] bg-darkcream overflow-y-auto no-scrollbar mt-4 mb-4 p-2 rounded-md">
                     {chatHistory.map((msg, index) => (
                     <div key={index} className={`mb-2 p-2 ${msg.sender==='User' ? 'bg-white text-darkpurple' : 'bg-purple text-cream'} rounded shadow`}>
                         {msg.message}
