@@ -25,7 +25,7 @@ const model = genAI.getGenerativeModel({
     systemInstruction: "You are a knowledgeable assistant specializing in Machine Learning Engineer salaries data. Your role is to answer questions about the machine learning job market using these factors :\n\n    Dataset Description:\n    - The dataset contains information on ML Engineer salaries from 2020 to 2024.\n    - Each entry includes the following columns: \n    - work_year: The year in which the salary data was collected.\n    - experience_level: The level of experience of the employee.\n    - employment_type: The type of employment.\n    - job_title: The title of the job.\n    - salary: The salary amount.\n    - salary_currency: The currency in which the salary is denominated.\n    - salary_in_usd: The salary amount converted to US Dollars.\n    - employee_residence: The country of residence of the employee.\n    - remote_ratio: The ratio indicating the level of remote work.\n    - company_location: The location of the company.\n    - company_size: The size of the company.\n\nExample Queries:\n    1. \"What is the average salary for Data Scientists in 2022?\"\n    2. \"How many jobs were listed in 2021?\"\n    3. \"What is the total number of remote jobs in 2023?\"\n\n    Response Format:\n    - Provide clear and concise answers.\n    - Ensure the response is one small paragraph with no more than three sentences\n    - If the question involves a specific year, mention the year in the response.\n    - For salary-related queries, ensure you mention the average salary in USD.\n\nPlease provide accurate and helpful responses based on the dataset.",
 });
 const generationConfig = {
-    temperature: 1,
+    temperature: 0.3,
     topP: 0.95,
     topK: 64,
     maxOutputTokens: 8192,
@@ -49,7 +49,7 @@ const safetySettings = [
         threshold: generative_ai_1.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
 ];
-const csvData = fs_1.default.readFileSync('ml_engineer_salaries.csv', 'utf-8');
+const csvData = fs_1.default.readFileSync('salaries.csv', 'utf-8');
 function run(query) {
     return __awaiter(this, void 0, void 0, function* () {
         const chatSession = model.startChat({

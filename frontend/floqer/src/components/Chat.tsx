@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import axios from "axios"
 
 interface ChatMessage {
@@ -10,6 +10,14 @@ const Chat: React.FC = () => {
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+
+
+    const handleEnter = async (e: { key: string; }) => {
+        if (e.key === 'Enter') {
+            await handleSendMessage();
+        };
+    }
 
     const handleSendMessage = async () => {
         if (message.trim() !== '') {
@@ -30,9 +38,15 @@ const Chat: React.FC = () => {
             });
     }
 
+    useEffect(()=>{
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    },[chatHistory, isLoading]);
+
     return(
         <div className="w-full h-screen flex flex-col p-2">
-            <div className="w-full h-[55%] bg-darkcream overflow-y-auto no-scrollbar mt-4 mb-4 p-2 rounded-md">
+            <div ref={chatContainerRef} className="w-full h-[55%] bg-darkcream overflow-y-auto no-scrollbar mt-4 mb-4 p-2 rounded-md">
                     {chatHistory.map((msg, index) => (
                     <div key={index} className={`mb-2 p-2 ${msg.sender==='User' ? 'bg-white text-darkpurple' : 'bg-purple text-cream'} rounded shadow`}>
                         {msg.message}
@@ -52,6 +66,7 @@ const Chat: React.FC = () => {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleEnter}
                 className="flex-grow p-2 rounded-md bg-darkcream"
                 placeholder="Type your message..."
             />

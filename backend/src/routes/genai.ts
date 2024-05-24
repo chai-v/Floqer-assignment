@@ -17,7 +17,7 @@ const model = genAI.getGenerativeModel({
 });
   
 const generationConfig = {
-    temperature: 1,
+    temperature: 0.3,
     topP: 0.95,
     topK: 64,
     maxOutputTokens: 8192,
@@ -43,7 +43,7 @@ const safetySettings = [
     },
 ];
 
-const csvData = fs.readFileSync('ml_engineer_salaries.csv', 'utf-8');
+const csvData = fs.readFileSync('salaries.csv', 'utf-8');
   
 async function run(query: string) {
     const chatSession = model.startChat({
