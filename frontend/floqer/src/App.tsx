@@ -6,11 +6,13 @@ import Container from './sections/content/Container';
 import { FloatButton } from 'antd';
 import { CommentOutlined } from '@ant-design/icons';
 import Chat from './components/Chat';
+import Modal from './components/Modal';
 
 
 function App() {
   const [open, setOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +31,7 @@ function App() {
   return (
     <>
       <div className={`w-full h-full flex flex-col ${isMobile ? 'bg-custom-gradient2' : 'bg-custom-gradient'}`}>
+        {showModal && <Modal isMobile={isMobile} onClose={()=>setShowModal(false)}/>}
         <FloatButton style={{
           width: '50px',
           height: '50px',

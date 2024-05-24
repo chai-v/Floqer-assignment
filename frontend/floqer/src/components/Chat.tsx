@@ -9,17 +9,20 @@ interface ChatMessage {
 const Chat: React.FC = () => {
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSendMessage = async () => {
         if (message.trim() !== '') {
             const chatMessage: ChatMessage = { sender: 'User', message };
             await setChatHistory(prevChatHistory => [...prevChatHistory, chatMessage]);
             setMessage('');
+            setIsLoading(true);
         }
     
         axios.post('https://floqer-assignment-wmve.onrender.com/genai', { query: message })
             .then(response => {
                 const replyMessage: ChatMessage = { sender: 'AI', message: response.data.response };
+                setIsLoading(false);
                 setChatHistory(prevChatHistory => [...prevChatHistory, replyMessage]);
             })
             .catch(error => {
@@ -35,6 +38,14 @@ const Chat: React.FC = () => {
                         {msg.message}
                     </div>
                     ))}
+                    {isLoading && <div className="mb-2 p-2 bg-purple rounded shadow">
+                        <div className="animate-pulse opacity-70 flex flex-col gap-2">
+                            <div className="h-2.5 bg-cream rounded-full w-[45%]"></div>
+                            <div className="h-2 bg-cream rounded-full w-[75%]"></div>
+                            <div className="h-2 bg-cream rounded-full w-[65%]"></div>
+                            <div className="h-2 bg-cream rounded-full w-[70%]"></div>
+                        </div>
+                    </div>}
                 </div>
             <div className="flex gap-2">
             <input
