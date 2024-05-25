@@ -52,7 +52,7 @@ The web app is hosted on vercel. The backend service is hosted on Render's free 
 | [Ant Design](https://ant.design/) | UI framework for React                         |
 | [Tailwind](https://tailwindcss.com/) | CSS framework                        |
 | [Express.js](https://expressjs.com/) | Web application framework for Node.js         |
-| [LangChain.js](https://neon.tech/) | LLMs framework                                 |
+| [LangChain.js](https://js.langchain.com/v0.2/docs/introduction/) | LLMs framework                                 |
 | [NeonDB](https://neon.tech/) | Serverless Postgres database                                 |
-| [Pinecone](https://neon.tech/) | Serverless vector database                                 |
+| [Pinecone](https://www.pinecone.io/) | Serverless vector database                                 |
 
