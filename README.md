@@ -5,7 +5,7 @@ A seamless dashboard to gain insights on machine learning jobs over the past few
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
+- [Tasks](#tasks)
 - [Deployment](#deployment)
 - [Built With](#built-with)
 
@@ -25,14 +25,11 @@ Create a table (referred to as the "main table") with the following columns:
 1. **Year**: The year from 2020 to 2024.
 2. **Number of Total Jobs**: The total number of ML Engineer jobs for each year.
 3. **Average Salary in USD**: The average salary in USD for ML Engineer jobs for each year.
-
-Users should be able to sort the table by any column.
+4. Users should be able to sort the table by any column.
 
 ### Task 2: Analytics
 
 #### Description
-Now, our users want to understand the data further. Using the same dataset, create the following:
-
 1. **Line Graph**: Display how the number of ML Engineer jobs has changed from 2020 to 2024.
 
 2. **Aggregated Job Titles Table**:
@@ -40,6 +37,8 @@ Now, our users want to understand the data further. Using the same dataset, crea
    - This table should show aggregated job titles and the number of jobs for the selected year.
    - For example, if the user clicks on 2022 in the main table, the second table should display all job titles from 2022 along with the sum of how many times each job appeared in 2022.
 
+### Bonus task: Chatbot
+Create a chat app that creates the best response based on business knowledge from the dataset.
 
 ## Deployment
 
@@ -53,4 +52,7 @@ The web app is hosted on vercel. The backend service is hosted on Render's free 
 | [Ant Design](https://ant.design/) | UI framework for React                         |
 | [Tailwind](https://tailwindcss.com/) | CSS framework                        |
 | [Express.js](https://expressjs.com/) | Web application framework for Node.js         |
+| [LangChain.js](https://neon.tech/) | LLMs framework                                 |
 | [NeonDB](https://neon.tech/) | Serverless Postgres database                                 |
+| [Pinecone](https://neon.tech/) | Serverless vector database                                 |
+
