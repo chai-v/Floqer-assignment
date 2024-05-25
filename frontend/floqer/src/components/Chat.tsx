@@ -27,7 +27,7 @@ const Chat: React.FC = () => {
             setIsLoading(true);
         }
     
-        axios.post('http://localhost:5000/chatGA/query', { query: message })
+        axios.post('https://floqer-assignment-wmve.onrender.com/chatGA/query', { query: message })
             .then(response => {
                 const replyMessage: ChatMessage = { sender: 'AI', message: response.data.response };
                 setIsLoading(false);
