@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const salaries_1 = __importDefault(require("./routes/salaries"));
 const genai_1 = __importDefault(require("./routes/genai"));
-// import './db/init'
+const chatGA_1 = __importDefault(require("./routes/chatGA"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
 // Middleware
@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 });
 app.use('/salaries', salaries_1.default);
 app.use('/genai', genai_1.default);
+app.use('/chatGA', chatGA_1.default);
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

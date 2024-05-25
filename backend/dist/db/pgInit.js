@@ -12,20 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const google_genai_1 = require("@langchain/google-genai");
+//Neon postgres vector store with OpenAI embeddings
+const openai_1 = require("@langchain/openai");
+const pgvector_1 = require("@langchain/community/vectorstores/pgvector");
+const documents_1 = require("@langchain/core/documents");
+const pg_1 = require("pg");
 const fs_1 = __importDefault(require("fs"));
 const csv_parser_1 = __importDefault(require("csv-parser"));
-//Pinecone
-const pinecone_1 = require("@pinecone-database/pinecone");
-const documents_1 = require("@langchain/core/documents");
-const pinecone_2 = require("@langchain/pinecone");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, GEMINI_API_KEY, PINECONE_API_KEY, PINECONE_INDEX, PINECONE_ENVIRONMENT } = process.env;
-const pinecone = new pinecone_1.Pinecone({
-    apiKey: PINECONE_API_KEY,
-});
-const pineconeIndex = pinecone.Index(PINECONE_INDEX);
 const config = {
     postgresConnectionOptions: {
         host: PGHOST,
@@ -46,35 +42,27 @@ const config = {
     },
     distanceStrategy: "cosine",
 };
-function chunkArray(array, chunkSize) {
-    const chunks = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-        chunks.push(array.slice(i, i + chunkSize));
-    }
-    return chunks;
+const embeddings = new openai_1.OpenAIEmbeddings();
+function initializeVectorStore() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const pgvectorStore = yield pgvector_1.PGVectorStore.initialize(embeddings, config);
+        return pgvectorStore;
+    });
 }
-const googleEmbeddings = new google_genai_1.GoogleGenerativeAIEmbeddings({
-    apiKey: GEMINI_API_KEY,
-    modelName: 'embedding-001'
-});
-// async function initializeVectorStore(){
-//     const pgvectorStore = await PGVectorStore.initialize(googleEmbeddings, config);
-//     return pgvectorStore;
-// }
-// const pgvectorstorePromise = initializeVectorStore();
+const pgvectorstorePromise = initializeVectorStore();
 function populateVectorStore() {
     return __awaiter(this, void 0, void 0, function* () {
-        // const tableExists = `
-        // SELECT EXISTS(
-        //     SELECT FROM information_schema.tables
-        //     WHERE table_schema = 'public'
-        //     AND table_name = 'datacontext'
-        // );
-        // `;
-        // const pool = new Pool(config.postgresConnectionOptions);
-        // const { rows } = await pool.query(tableExists);
+        const tableExists = `
+    SELECT EXISTS(
+        SELECT FROM information_schema.tables
+        WHERE table_schema = 'public'
+        AND table_name = 'datacontext'
+    );
+    `;
+        const pool = new pg_1.Pool(config.postgresConnectionOptions);
+        const { rows } = yield pool.query(tableExists);
         const records = [];
-        if (true) {
+        if (!rows[0]) {
             fs_1.default.createReadStream('salaries.csv')
                 .pipe((0, csv_parser_1.default)())
                 .on('data', (row) => {
@@ -96,35 +84,9 @@ function populateVectorStore() {
             })
                 .on('end', () => __awaiter(this, void 0, void 0, function* () {
                 console.log(records);
-                // const pgvectorstore = await pgvectorstorePromise;
-                // for (const record of records) {
-                //     const embedding = await googleEmbeddings.embedQuery(record.pageContent);
-                //     console.log(`Embedding for content "${record.pageContent}":`, embedding);
-                //     if (embedding.length === 0) {
-                //         console.error(`Empty embedding for content: ${record.pageContent}`);
-                //         break;
-                //     }
-                // }
-                // await pgvectorstore.addDocuments(records);
-                const recordChunks = chunkArray(records, 1);
-                for (const chunk of recordChunks) {
-                    try {
-                        yield pinecone_2.PineconeStore.fromDocuments(chunk, googleEmbeddings, {
-                            pineconeIndex,
-                            maxConcurrency: 1, // Maximum number of batch requests to allow at once. Each batch is 1000 vectors.
-                        });
-                        console.log(`Processed batch of ${chunk.length} records`);
-                    }
-                    catch (error) {
-                        console.error('Error processing batch:', error);
-                    }
-                }
+                const pgvectorstore = yield pgvectorstorePromise;
+                yield pgvectorstore.addDocuments(records);
                 console.log('CSV file successfully processed');
-                // await PineconeStore.fromDocuments(records, googleEmbeddings, {
-                //   pineconeIndex,
-                //   maxConcurrency: 1, // Maximum number of batch requests to allow at once. Each batch is 1000 vectors.
-                // });
-                // console.log('CSV file successfully processed');
             }));
         }
     });

@@ -1,3 +1,5 @@
+//Chat bot with Google AI Studio and prompt modeling (no embeddings)
+
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 import fs from 'fs';
 

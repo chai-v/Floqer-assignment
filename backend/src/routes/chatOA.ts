@@ -10,15 +10,41 @@ import {
 } from "@langchain/core/prompts";
 import { BufferMemory } from "langchain/memory";
 
+//pgvector with neon
 import {
   DistanceStrategy,
   PGVectorStore,
 } from "@langchain/community/vectorstores/pgvector";
 import { Pool, PoolConfig } from 'pg';
 
+//Pinecone
+import { Pinecone } from "@pinecone-database/pinecone";
+import { Document } from "@langchain/core/documents";
+import { PineconeStore } from "@langchain/pinecone";
+
 import dotenv from 'dotenv';
 dotenv.config();
-let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, OPENAI_API_KEY } = process.env;
+let {
+  PGHOST,
+  PGDATABASE,
+  PGUSER,
+  PGPASSWORD,
+  OPENAI_API_KEY,
+  GEMINI_API_KEY,
+  PINECONE_API_KEY,
+  PINECONE_INDEX,
+  PINECONE_ENVIRONMENT
+} = process.env as {
+  PGHOST: string;
+  PGDATABASE: string;
+  PGUSER: string;
+  PGPASSWORD: string;
+  OPENAI_API_KEY: string,
+  GEMINI_API_KEY: string;
+  PINECONE_API_KEY: string;
+  PINECONE_INDEX: string;
+  PINECONE_ENVIRONMENT: string;
+};
 
 const router = Router();
 
@@ -53,6 +79,14 @@ const config = {
   }
 
   const pgvectorstore = initializeVectorStore();
+
+  const pinecone = new Pinecone(
+    {
+        apiKey: PINECONE_API_KEY,
+    }
+);
+
+  const pineconeIndex = pinecone.Index(PINECONE_INDEX);
 
   const chat = new ChatOpenAI({ temperature: 0});
 

@@ -20,9 +20,8 @@ const Modal: React.FC<ModalProps> = ({isMobile, onClose}) => {
                 <div className="bg-cream rounded-md flex flex-col p-4 gap-4 text-darkpurple text-md font-medium">
                     <h1 className="text-xl font-bold text-purple">Note</h1>
                     <p>The data on the dashboard is fetched from a server currently hosted on Render. There might be a short delay for the data to populate on the site.</p>
-                    <p>The chatbot is temporarily powered by Gemini which returns responses based on some sample data. Chatbot responses take 25-45 seconds.</p>
+                    <p>The chatbot is temporarily powered by Gemini-1.5-flash which returns responses based on embeddings generated using embedding-001 model. Chatbot responses take 20-30 seconds and need to be optimized.</p>
                 </div>
-
             </div>
         </div>
     );

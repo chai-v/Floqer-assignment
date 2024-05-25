@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import salariesRouter from './routes/salaries';
 import genaiRouter from './routes/genai';
-// import './db/init'
+import genaiChat from './routes/chatGA'
+
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/salaries', salariesRouter);
 app.use('/genai', genaiRouter);
+app.use('/chatGA', genaiChat);
 
 
 app.listen(port, () => {

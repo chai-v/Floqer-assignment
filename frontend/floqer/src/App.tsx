@@ -33,15 +33,16 @@ function App() {
       <div className={`w-full h-full flex flex-col ${isMobile ? 'bg-custom-gradient2' : 'bg-custom-gradient'}`}>
         {showModal && <Modal isMobile={isMobile} onClose={()=>setShowModal(false)}/>}
         <FloatButton style={{
-          width: '50px',
-          height: '50px',
+          width: isMobile ? '60px' : '50px',
+          height: isMobile ? '60px' : '50px',
           fontSize: '45px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#FFF7F7',
+          color: '#8727E7',
           zIndex: 10
-        }} icon={<CommentOutlined />} tooltip={<div>Chat with Floqer</div>} onClick={()=>{setOpen(true)}}></FloatButton>
+        }} icon={<CommentOutlined style={{color:'#8727E7'}}/>} tooltip={<div>Chat with Floqer</div>} onClick={()=>{setOpen(true)}}></FloatButton>
 
         <div className={`fixed top-0 right-0 h-full ${isMobile ? 'w-full grid justify-items-stretch' : 'w-1/3'} bg-cream z-50 shadow-lg  duration-300 ${ open ? '' : 'translate-x-full'}`}>
           <div className={`w-12 h-12 bg-cream border border-darkcream rounded-full ${isMobile ? 'justify-self-end mr-3' : open ? '-translate-x-5' : ''} mt-4 flex flex-col items-center`}>
